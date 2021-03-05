@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620215368922",
+    "project_id": "e-orchestra",
+    "storage_bucket": "e-orchestra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620215368922:android:577e19577427cd5847b9e3",
+        "android_client_info": {
+          "package_name": "com.example.vj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620215368922-1qc5b0mv5lqa0jgs8gvovtgf20fbvlsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVdKUN0BpT-q2cTPdUSwRYpaMH6jgm_wE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620215368922-1qc5b0mv5lqa0jgs8gvovtgf20fbvlsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
