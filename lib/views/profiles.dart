@@ -7,10 +7,14 @@ import 'dart:convert';
 
 //import 'package:vj/views/detailed.dart';
 
-Future<Profile> fetchProfile() async {
-  final response = await http.get(Uri.http('10.0.2.2:4000', 'getGroup'));
+Future<List<Profile>> fetchProfile() async {
+  final response = await http.get(Uri.http('10.0.2.2:4000', 'getGroups'));
   if (response.statusCode == 200) {
-    return Profile.fromJson(jsonDecode(response.body));
+    List<Profile> profiles;
+    profiles = (jsonDecode(response.body) as List)
+        .map((i) => Profile.fromJson(i))
+        .toList();
+    return profiles;
   } else {
     throw Exception("Failed to Load");
   }
@@ -21,15 +25,18 @@ class Profile {
   final String description;
   final String phoneNumber;
   final String genre;
+  final String city;
 
-  Profile({this.name, this.description, this.genre, this.phoneNumber});
+  Profile(
+      {this.name, this.city, this.description, this.genre, this.phoneNumber});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
         name: json['name'],
         description: json['description'],
         genre: json['genre'],
-        phoneNumber: json['phoneNo']);
+        phoneNumber: json['phoneNo'],
+        city: json["city"]);
   }
 }
 
@@ -39,7 +46,7 @@ class Profiles extends StatefulWidget {
 }
 
 class _ProfilesState extends State<Profiles> {
-  Future<Profile> futureProfile;
+  Future<List<Profile>> futureProfile;
 
   @override
   void initState() {
@@ -62,17 +69,39 @@ class _ProfilesState extends State<Profiles> {
           ),
         ),
       ),
-      body: FutureBuilder<Profile>(
+      body: FutureBuilder<List<Profile>>(
         future: futureProfile,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            List<Widget> list = [];
+            for (var profile in snapshot.data) {
+              list.add(Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 7,
+                          spreadRadius: 5,
+                          offset: Offset(0, 3),
+                          color: Colors.blue.withOpacity(.2))
+                    ]),
+                width: double.infinity,
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 50),
+                      Text(profile.name),
+                      Text(profile.description),
+                      Text(profile.genre),
+                      // Text(profile.city),
+                      Text(profile.phoneNumber),
+                    ],
+                  ),
+                ),
+              ));
+            }
             return Column(
-              children: <Widget>[
-                Text(snapshot.data.name),
-                Text(snapshot.data.description),
-                Text(snapshot.data.genre),
-                Text(snapshot.data.phoneNumber),
-              ],
+              children: list,
             );
           } else if (snapshot.hasError) {
             return Text("Error" + snapshot.error.toString());
