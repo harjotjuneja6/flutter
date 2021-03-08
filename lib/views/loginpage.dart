@@ -7,8 +7,11 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "                         E-ORCHESTRA",
+        automaticallyImplyLeading: false,
+        title: Center(
+          child: Text(
+            "E-ORCHESTRA",
+          ),
         ),
       ),
       body: Padding(
