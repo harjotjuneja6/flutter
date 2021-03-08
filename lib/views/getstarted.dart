@@ -10,7 +10,7 @@ class Getstarted extends StatelessWidget {
             constraints: BoxConstraints.expand(),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("views/bgimg.png"), fit: BoxFit.cover)),
+                    image: AssetImage("./bgimg.png"), fit: BoxFit.cover)),
             child: Scaffold(
                 body: Padding(
                     padding: EdgeInsets.all(10),

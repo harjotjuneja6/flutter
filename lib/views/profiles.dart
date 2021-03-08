@@ -8,7 +8,7 @@ import 'dart:convert';
 //import 'package:vj/views/detailed.dart';
 
 Future<List<Profile>> fetchProfile() async {
-  final response = await http.get(Uri.http('10.0.2.2:4000', 'getGroups'));
+  final response = await http.get(Uri.http('13.232.225.28:4000', 'getGroups'));
   if (response.statusCode == 200) {
     List<Profile> profiles;
     profiles = (jsonDecode(response.body) as List)
