@@ -19,7 +19,7 @@ class Getstarted extends StatelessWidget {
               child: Text("Get Started"),
               onPressed: () => {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()))
+                    MaterialPageRoute(builder: (context) => LoginPageState()))
               },
             ),
           ),

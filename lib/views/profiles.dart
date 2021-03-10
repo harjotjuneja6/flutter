@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vj/firebase.dart';
 import 'package:vj/views/loginpage.dart';
 import 'package:vj/views/logout.dart';
 import 'package:http/http.dart' as http;
@@ -62,9 +63,10 @@ class _ProfilesState extends State<Profiles> {
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
             child: Text("Logout"),
-            onPressed: () => {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoginPage()))
+            onPressed: () async {
+              await logout();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPageState()));
             },
           ),
         ),
@@ -106,7 +108,7 @@ class _ProfilesState extends State<Profiles> {
           } else if (snapshot.hasError) {
             return Text("Error" + snapshot.error.toString());
           }
-          return CircularProgressIndicator();
+          return Container(child: Center(child: CircularProgressIndicator()));
         },
       ),
     );

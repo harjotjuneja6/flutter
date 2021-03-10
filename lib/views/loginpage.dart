@@ -1,8 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:vj/firebase.dart';
 import 'package:vj/views/profiles.dart';
 import 'package:vj/views/signup.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPageState extends StatefulWidget {
+  @override
+  LoginPage createState() => LoginPage();
+}
+
+class LoginPage extends State<LoginPageState> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +53,7 @@ class LoginPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10),
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'E-Mail Id',
@@ -46,8 +63,8 @@ class LoginPage extends StatelessWidget {
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: TextField(
+                controller: passwordController,
                 obscureText: true,
-                //controller: passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
@@ -69,11 +86,17 @@ class LoginPage extends StatelessWidget {
                   //textColor: Colors.white,
                   // color: Colors.blue,
                   child: Text('Login'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Profiles()),
-                    );
+                  onPressed: () async {
+                    try {
+                      await login(
+                          emailController.text, passwordController.text);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Profiles()),
+                      );
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                 )),
             Container(
@@ -90,7 +113,7 @@ class LoginPage extends StatelessWidget {
                     //signup screen
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SignUp()),
+                      MaterialPageRoute(builder: (context) => SignUpState()),
                     );
                   },
                 )
