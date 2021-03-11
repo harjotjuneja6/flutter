@@ -20,4 +20,5 @@ Future<User> register(String email, String password) async {
 
 Future<Void> logout() async {
   await auth.signOut();
+  return null;
 }

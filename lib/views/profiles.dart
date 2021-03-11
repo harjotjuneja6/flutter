@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vj/firebase.dart';
+import 'package:vj/views/groupRegistraion.dart';
 import 'package:vj/views/loginpage.dart';
 import 'package:vj/views/logout.dart';
 import 'package:http/http.dart' as http;
@@ -23,13 +24,19 @@ Future<List<Profile>> fetchProfile() async {
 
 class Profile {
   final String name;
+  final String email;
   final String description;
   final String phoneNumber;
   final String genre;
-  final String city;
+  final String college;
 
   Profile(
-      {this.name, this.city, this.description, this.genre, this.phoneNumber});
+      {this.name,
+      this.email,
+      this.college,
+      this.description,
+      this.genre,
+      this.phoneNumber});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
@@ -37,7 +44,8 @@ class Profile {
         description: json['description'],
         genre: json['genre'],
         phoneNumber: json['phoneNo'],
-        city: json["city"]);
+        college: json['college'],
+        email: json['email']);
   }
 }
 
@@ -48,7 +56,6 @@ class Profiles extends StatefulWidget {
 
 class _ProfilesState extends State<Profiles> {
   Future<List<Profile>> futureProfile;
-
   @override
   void initState() {
     super.initState();
@@ -61,13 +68,30 @@ class _ProfilesState extends State<Profiles> {
       appBar: AppBar(
         title: Container(
           alignment: Alignment.bottomRight,
-          child: ElevatedButton(
-            child: Text("Logout"),
-            onPressed: () async {
-              await logout();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginPageState()));
-            },
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupRegistration()));
+                  },
+                  child: Text(
+                    "Add Group",
+                    textDirection: TextDirection.ltr,
+                  )),
+              ElevatedButton(
+                child: Text("Logout"),
+                onPressed: () async {
+                  await logout();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LoginPageState()));
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -92,11 +116,16 @@ class _ProfilesState extends State<Profiles> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(height: 50),
-                      Text(profile.name),
-                      Text(profile.description),
-                      Text(profile.genre),
-                      // Text(profile.city),
-                      Text(profile.phoneNumber),
+                      Text(profile.name != null ? profile.name : ''),
+                      Text(profile.description != null
+                          ? profile.description
+                          : ''),
+                      Text(profile.genre != null ? profile.genre : ''),
+                      Text(profile.college != null ? profile.college : ''),
+                      Text(profile.phoneNumber != null
+                          ? profile.phoneNumber
+                          : ''),
+                      Text(profile.email != null ? profile.email : '')
                     ],
                   ),
                 ),
