@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vj/firebase.dart';
+import 'package:vj/views/DBQueries.dart';
 import 'package:vj/views/loginpage.dart';
 
 class SignUpState extends StatefulWidget {
@@ -10,6 +11,11 @@ class SignUpState extends StatefulWidget {
 class SignUp extends State<SignUpState> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final phoneNoController = TextEditingController();
+  final ageController = TextEditingController();
+  final genreController = TextEditingController();
+  final nameController = TextEditingController();
+  final collegeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +38,7 @@ class SignUp extends State<SignUpState> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
+                  controller: nameController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Name',
@@ -41,6 +48,27 @@ class SignUp extends State<SignUpState> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
+                  controller: genreController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'genre',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: collegeController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'college',
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: TextField(
+                  controller: phoneNoController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Contact No.',
@@ -60,9 +88,10 @@ class SignUp extends State<SignUpState> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: TextField(
+                  controller: ageController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Profession ',
+                    labelText: 'age ',
                   ),
                 ),
               ),
@@ -77,6 +106,13 @@ class SignUp extends State<SignUpState> {
                       try {
                         await register(
                             emailController.text, passwordController.text);
+                        await createUser(
+                            nameController.text,
+                            ageController.text,
+                            emailController.text,
+                            phoneNoController.text,
+                            collegeController.text,
+                            genreController.text);
                         Navigator.push(
                           context,
                           MaterialPageRoute(

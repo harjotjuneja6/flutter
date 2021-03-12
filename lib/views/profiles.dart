@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vj/firebase.dart';
+import 'package:vj/views/detailed.dart';
 import 'package:vj/views/groupRegistraion.dart';
 import 'package:vj/views/loginpage.dart';
 import 'package:vj/views/logout.dart';
@@ -7,10 +8,11 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
-//import 'package:vj/views/detailed.dart';
+var ip = "10.0.2.2:4000";
+// var ip = '13.232.225.28:4000';
 
 Future<List<Profile>> fetchProfile() async {
-  final response = await http.get(Uri.http('13.232.225.28:4000', 'getGroups'));
+  final response = await http.get(Uri.http(ip, 'getGroups'));
   if (response.statusCode == 200) {
     List<Profile> profiles;
     profiles = (jsonDecode(response.body) as List)
@@ -29,9 +31,11 @@ class Profile {
   final String phoneNumber;
   final String genre;
   final String college;
+  final String groupID;
 
   Profile(
       {this.name,
+      this.groupID,
       this.email,
       this.college,
       this.description,
@@ -41,6 +45,7 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
         name: json['name'],
+        groupID: json['_id'],
         description: json['description'],
         genre: json['genre'],
         phoneNumber: json['phoneNo'],
@@ -126,7 +131,16 @@ class _ProfilesState extends State<Profiles> {
                         Text(profile.phoneNumber != null
                             ? profile.phoneNumber
                             : ''),
-                        Text(profile.email != null ? profile.email : '')
+                        Text(profile.email != null ? profile.email : ''),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfileDetail(
+                                          groupID: profile.groupID)));
+                            },
+                            child: Text("Details"))
                       ],
                     ),
                   ),
