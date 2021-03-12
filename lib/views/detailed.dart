@@ -5,14 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:vj/views/DBQueries.dart';
 
 //import 'package:vj/views/profiles.dart';
-// var ip = "10.0.2.2:4000";
-var ip = '13.232.225.28:4000';
+var ip = "10.0.2.2:4000";
+// var ip = '13.232.225.28:4000';
 
 Future<Profile> fetchProfile(String groupID) async {
   final response = await http.get(Uri.http(ip, 'getGroup/$groupID'));
   if (response.statusCode == 200) {
     Profile profile = Profile.fromJson(json.decode(response.body));
-    print(profile);
     return profile;
   } else {
     throw Exception("Failed to Load");
@@ -57,10 +56,17 @@ class ProfileDetail extends StatefulWidget {
 
 class _ProflieDetail extends State<ProfileDetail> {
   Future<Profile> profile;
+  Future<String> group;
   @override
   void initState() {
     super.initState();
     profile = fetchProfile(widget.groupID);
+    group = checkGroup();
+  }
+
+  Future<String> checkGroup() async {
+    var userGroup = await getUserGroup();
+    return userGroup['group'];
   }
 
   @override
@@ -80,10 +86,23 @@ class _ProflieDetail extends State<ProfileDetail> {
                 children: <Widget>[
                   Text(snapshot.data.name),
                   ElevatedButton(
-                      onPressed: () async {
-                        await joinGroup(widget.groupID);
+                    onPressed: () async {
+                      await joinGroup(widget.groupID);
+                    },
+                    child: FutureBuilder(
+                      future: group,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(snapshot.data == widget.groupID
+                              ? "Already Joined"
+                              : "Join Now");
+                        } else if (snapshot.hasError) {
+                          return Text("Cannot Fetch");
+                        }
+                        return CircularProgressIndicator();
                       },
-                      child: Text("Join Group"))
+                    ),
+                  )
                 ],
               );
             } else if (snapshot.hasError) {

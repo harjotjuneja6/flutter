@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 
-var ip = '13.232.225.28:4000';
-// var ip = "10.0.2.2:4000";
+// var ip = '13.232.225.28:4000';
+var ip = "10.0.2.2:4000";
 
 FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -54,4 +54,11 @@ Future<http.Response> createUser(String name, String age, String email,
         'college': college,
         'genre': genre,
       }));
+}
+
+Future getUserGroup() async {
+  final String uid = auth.currentUser.uid;
+  var response = await http.get(Uri.http(ip, 'getUser/$uid'));
+  var user = jsonDecode(response.body);
+  return user;
 }
