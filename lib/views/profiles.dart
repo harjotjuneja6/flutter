@@ -95,50 +95,52 @@ class _ProfilesState extends State<Profiles> {
           ),
         ),
       ),
-      body: FutureBuilder<List<Profile>>(
-        future: futureProfile,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<Widget> list = [];
-            for (var profile in snapshot.data) {
-              list.add(Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 7,
-                          spreadRadius: 5,
-                          offset: Offset(0, 3),
-                          color: Colors.blue.withOpacity(.2))
-                    ]),
-                width: double.infinity,
-                child: Center(
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 50),
-                      Text(profile.name != null ? profile.name : ''),
-                      Text(profile.description != null
-                          ? profile.description
-                          : ''),
-                      Text(profile.genre != null ? profile.genre : ''),
-                      Text(profile.college != null ? profile.college : ''),
-                      Text(profile.phoneNumber != null
-                          ? profile.phoneNumber
-                          : ''),
-                      Text(profile.email != null ? profile.email : '')
-                    ],
+      body: SingleChildScrollView(
+        child: FutureBuilder<List<Profile>>(
+          future: futureProfile,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Widget> list = [];
+              for (var profile in snapshot.data) {
+                list.add(Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 7,
+                            spreadRadius: 5,
+                            offset: Offset(0, 3),
+                            color: Colors.blue.withOpacity(.2))
+                      ]),
+                  width: double.infinity,
+                  child: Center(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 50),
+                        Text(profile.name != null ? profile.name : ''),
+                        Text(profile.description != null
+                            ? profile.description
+                            : ''),
+                        Text(profile.genre != null ? profile.genre : ''),
+                        Text(profile.college != null ? profile.college : ''),
+                        Text(profile.phoneNumber != null
+                            ? profile.phoneNumber
+                            : ''),
+                        Text(profile.email != null ? profile.email : '')
+                      ],
+                    ),
                   ),
-                ),
-              ));
+                ));
+              }
+              return Column(
+                children: list,
+              );
+            } else if (snapshot.hasError) {
+              return Text("Error" + snapshot.error.toString());
             }
-            return Column(
-              children: list,
-            );
-          } else if (snapshot.hasError) {
-            return Text("Error" + snapshot.error.toString());
-          }
-          return Container(child: Center(child: CircularProgressIndicator()));
-        },
+            return Container(child: Center(child: CircularProgressIndicator()));
+          },
+        ),
       ),
     );
   }
