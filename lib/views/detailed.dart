@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:vj/views/DBQueries.dart';
 
 //import 'package:vj/views/profiles.dart';
-var ip = "10.0.2.2:4000";
-// var ip = '13.232.225.28:4000';
+// var ip = "10.0.2.2:4000";
+var ip = '13.232.225.28:4000';
 
 Future<Profile> fetchProfile(String groupID) async {
   final response = await http.get(Uri.http(ip, 'getGroup/$groupID'));
