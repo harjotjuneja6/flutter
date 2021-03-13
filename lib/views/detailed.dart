@@ -102,6 +102,7 @@ class _ProflieDetail extends State<ProfileDetail> {
                               ? "Already Joined"
                               : "Join Now");
                         } else if (snapshot.hasError) {
+                          print(snapshot.error);
                           return Text("Cannot Fetch");
                         }
                         return CircularProgressIndicator();
