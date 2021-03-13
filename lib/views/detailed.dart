@@ -85,6 +85,11 @@ class _ProflieDetail extends State<ProfileDetail> {
               return Column(
                 children: <Widget>[
                   Text(snapshot.data.name),
+                  Text(snapshot.data.college),
+                  Text(snapshot.data.phoneNO),
+                  Text(snapshot.data.email),
+                  Text(snapshot.data.genre),
+                  Text(snapshot.data.description),
                   ElevatedButton(
                     onPressed: () async {
                       await joinGroup(widget.groupID);
